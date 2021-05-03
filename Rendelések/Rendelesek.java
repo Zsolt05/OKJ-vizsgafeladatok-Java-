@@ -77,11 +77,15 @@ public class Main {
                             termek.setKeszleten(keszlet);
                         } else {
                             rendeles.setKiadhato(false);
+                            int kell = termek.getKell();
+                            kell += rendeles.getTermek().get(i).getMennyiseg();
+                            termek.setKell(kell);
                         }
                     }
                 }
             }
         }
+        //levelek
         try {
             FileWriter fw = new FileWriter("levelek.csv");
 
@@ -97,6 +101,19 @@ public class Main {
         } catch (IOException e) {
         }
 
+        //beszerzes
+        try {
+            FileWriter fw = new FileWriter("beszerzes.csv");
+
+            for (Termek termek : termekek) {
+                if (termek.getKell() != 0) {
+                    fw.write(termek.getCikkszam() + ";" + termek.getKell() + "\n");
+                }
+            }
+            fw.flush();
+            fw.close();
+        } catch (IOException e) {
+        }
     }
 }
 
@@ -195,6 +212,7 @@ class Termek {
     private String neve;
     private int ar;
     private int keszleten;
+    private int kell = 0;
 
     public String getCikkszam() {
         return cikkszam;
@@ -226,5 +244,13 @@ class Termek {
 
     public void setKeszleten(int keszleten) {
         this.keszleten = keszleten;
+    }
+
+    public int getKell() {
+        return kell;
+    }
+
+    public void setKell(int kell) {
+        this.kell = kell;
     }
 }
